@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:text_editor_like_insta/animated_text_kit.dart';
 import 'package:text_editor_like_insta/text_edit_insta.dart';
 
+import 'implementation_admob_ads.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 
