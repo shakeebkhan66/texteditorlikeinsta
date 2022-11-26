@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:text_editor/text_editor.dart';
 
+import 'implementation_admob_ads.dart';
+
 class TextEditorLikeInsta extends StatefulWidget {
   const TextEditorLikeInsta({Key? key}) : super(key: key);
 
@@ -9,7 +11,6 @@ class TextEditorLikeInsta extends StatefulWidget {
 }
 
 class _TextEditorLikeInstaState extends State<TextEditorLikeInsta> {
-
   final fonts = [
     'OpenSans',
     'Billabong',
@@ -37,22 +38,40 @@ class _TextEditorLikeInstaState extends State<TextEditorLikeInsta> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AdmobAdsScreen()));
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 25.0,
+            )),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
-            Center(child: Image.asset("assets/images/practice.jpg", fit: BoxFit.cover,)),
+            Center(
+                child: Image.asset(
+              "assets/images/practice.jpg",
+              fit: BoxFit.cover,
+            )),
             Center(
               child: TextEditor(
-                text: _text,
+                  text: _text,
                   fonts: fonts,
-                  onEditCompleted: (style, align, text){
+                  onEditCompleted: (style, align, text) {
                     setState(() {
-                      style = const TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+                      style = const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold);
                       align = TextAlign.center;
                       _text = text;
                     });
-                  }
-              ),
+                  }),
             )
           ],
         ),
