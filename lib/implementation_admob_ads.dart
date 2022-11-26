@@ -10,35 +10,23 @@ class AdmobAdsScreen extends StatefulWidget {
 
 class _AdmobAdsScreenState extends State<AdmobAdsScreen> {
 
-
-  late BannerAd? _bannerAd;
-  bool isAdLoaded = false;
-  String testAdUnitId = "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy";
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeBannerAd();
-  }
-
-  _initializeBannerAd() {
-    _bannerAd = BannerAd(
-        size: AdSize.banner,
-        adUnitId: testAdUnitId,
-        listener: BannerAdListener(
-          onAdLoaded: (ad) {
-            setState(() {
-              isAdLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, error){},
-        ),
-        request: const AdRequest(),
-    );
-
-    // Start the Process of Loading
-    _bannerAd?.load();
-  }
+  BannerAd bAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad){
+          print(" Ad Loaded");
+        },
+        onAdFailedToLoad: (Ad ad,LoadAdError error){
+          print(" Ad Failed");
+          ad.dispose();
+        },
+        onAdOpened: (Ad ad){
+          print(" Ad Loaded");
+        }
+      ),
+      request: AdRequest()
+  );
 
 
   @override
@@ -52,22 +40,26 @@ class _AdmobAdsScreenState extends State<AdmobAdsScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
         ),
       ),
+
       body: Column(
-        children:  [
-          const Center(
+        children:  const [
+          Center(
             child: Text(
               "ADMOB ADS",
               style: TextStyle(
                   color: Colors.orangeAccent, fontWeight: FontWeight.w900),
             ),
           ),
-          isAdLoaded ? Container(
-            height: _bannerAd?.size.height.toDouble(),
-            width: _bannerAd?.size.width.toDouble(),
-            child: AdWidget(ad: _bannerAd!),
-          ) : const SizedBox(),
         ],
-      )
+      ),
+
+      bottomNavigationBar: Container(
+        height: 50,
+        child: AdWidget(
+          ad: bAd..load(),
+          key: UniqueKey(),
+        ),
+      ),
     );
   }
 }
